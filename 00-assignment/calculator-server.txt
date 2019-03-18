@@ -1,0 +1,10 @@
+create a server that can handle the below requests
+
+
+http://localhost:8080/calculator?op=add&x=100&y=200
+http://localhost:8080/calculator?op=subtract&x=100&y=200
+http://localhost:8080/calculator?op=multiply&x=100&y=200
+http://localhost:8080/calculator?op=divide&x=100&y=200
+
+Hint
+	Use querystring.parse()
