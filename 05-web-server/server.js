@@ -1,22 +1,27 @@
-var http = require('http');
+var http = require('http'),
+	fs = require('fs'),
+	path = require('path');
 
 var server = http.createServer(function(req /* IncomingMessage */, res /*ServerResponse */){
-
-	/*
-	(use req.url)
-	if (req is for '/')
-		serve index.html
-	if (req is for any other resource){
-		check if the resource exits  (use fs.existsSync)
-		if exists
-			serve the resource (use streams)
-		else
-			serve 404 (res.statusCode = 404 & res.end());	
-	}
 	
-	*/
-	res.write('<h1>Welcome to Node.js</h1>');
-	res.end();
+	console.log(req.url);
+
+	var resourceName = req.url === '/' ? 'index.html' : req.url,
+		resourceFullName = path.join(__dirname, resourceName);
+	if (!fs.existsSync(resourceFullName)){
+		res.statusCode = 404;
+		res.end();
+		return;
+	}
+	var stream = fs.createReadStream(resourceFullName);
+	//stream.pipe(res);
+	stream.on('data', function(chunk){
+		res.write(chunk);
+	});
+
+	stream.on('end', function(){
+		res.end();
+	});
 });
 
 server.listen(8080);
