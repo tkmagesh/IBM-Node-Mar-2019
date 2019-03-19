@@ -1,0 +1,25 @@
+{
+  "name": "web-app-server",
+  "version": "0.1.0",
+  "description": "a sample app for demonstration",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start-dev" : "nodemon server.js"
+  },
+  "keywords": [
+    "node",
+    "web",
+    "app",
+    "demo"
+  ],
+  "author": "Magesh K",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}

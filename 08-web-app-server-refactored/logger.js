@@ -1,11 +1,13 @@
+var chalk = require('chalk');
+
 module.exports = function(req, res, next){
-	var logMessage  = req.method + '\t' + req.urlObj.pathname;
+	var logMessage  = chalk.red(req.method) + '\t' + chalk.blue(req.urlObj.pathname);
 	var startTime = new Date();
 	res.on('finish', function(){
-		logMessage += '\t' + res.statusCode;
+		logMessage += '\t' + chalk.magenta(res.statusCode);
 		var endTime = new Date(),
 			delta = endTime - startTime;
-		logMessage += '\t' + delta+'ms';
+		logMessage += '\t' + chalk.bgYellow(delta+'ms');
 		console.log(logMessage);
 	});
 	next();
