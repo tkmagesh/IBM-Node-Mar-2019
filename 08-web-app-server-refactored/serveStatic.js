@@ -8,7 +8,7 @@ function isStatic(resourceName){
 	return staticExtns.indexOf(resourceExtn) >= 0;
 }
 
-module.exports = function(req, res){
+module.exports = function(req, res, next){
 	var resourceName = req.urlObj.pathname === '/' ? 'index.html' : req.urlObj.pathname;
 	if (isStatic(resourceName)){
 		var	resourceFullName = path.join(__dirname, resourceName);
@@ -25,6 +25,9 @@ module.exports = function(req, res){
 		});
 		stream.on('end', function(){
 			res.end();
+			next();
 		});
-	} 
-}
+	} else {
+		next();
+	}
+};
