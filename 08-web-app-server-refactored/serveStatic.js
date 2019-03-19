@@ -19,6 +19,12 @@ module.exports = function(req, res){
 			return;
 		}
 		var stream = fs.createReadStream(resourceFullName);
-		stream.pipe(res);
+		//stream.pipe(res);
+		stream.on('data', function(chunk){
+			res.write(chunk);
+		});
+		stream.on('end', function(){
+			res.end();
+		});
 	} 
 }
