@@ -18,4 +18,17 @@ router.get('/new', function(req, res){
 	res.render('tasks/addNew');
 });
 
+router.post('/new', function(req, res){
+	var newTaskName = req.body.newTaskName;
+	var newTaskId = taskList.reduce(function(result, task){
+		return result > task.id ? result : task.id;
+	}, 0) + 1;
+	var newTask = {
+		id : newTaskId,
+		name : newTaskName
+	};
+	taskList.push(newTask);
+	res.redirect('/tasks');
+});
+
 module.exports = router;
