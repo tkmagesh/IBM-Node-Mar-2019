@@ -6,7 +6,8 @@ var taskList = [
 
 var taskDb = require('../db/taskDB.js');
 
-function getAll(callback){
+//callback based api
+/*function getAll(callback){
 	taskDb.getData(function(err, taskList){
 		callback(err, taskList);
 	});
@@ -79,8 +80,71 @@ function remove(taskIdToDelete, callback){
 			callback(err)
 		});
 	});
+}*/
+
+
+//Promise based api
+
+function getAll(){
+	return taskDb.getData();
 }
 
+function addNew(taskData){
+	return taskDb
+		.getData()
+		.then(function(taskList){
+			var newTaskId = taskList.reduce(function(result, task){
+				return result > task.id ? result : task.id;
+			}, 0) + 1,
+			newTask = {
+				id : newTaskId,
+				name : taskData.name
+			};
+			taskList.push(newTask);
+			return taskDb.saveData(taskList)
+				.then(function(){
+					return newTask;
+				});
+		});
+}
+
+function update(taskIdToUpdate, taskDataToUpate){
+	return taskDb
+		.getData()
+		.then(function(taskList){
+			var taskToReplace = taskList.find(function(task){
+				return task.id === taskIdToUpdate;
+			});
+			if (!taskToReplace){
+				return callback(new Error("Task not found"));
+			}
+			taskList = taskList.map(function(task){
+				return task.id === taskIdToUpdate ? taskDataToUpate : task;
+			});
+			return taskDb.saveData(taskList)
+				.then(function(){
+					return taskDataToUpate;
+				});
+		});
+	
+}
+
+function remove(taskIdToDelete){
+	return taskDb
+		.getData()
+		.then(function(taskList){
+			var taskToRemove = taskList.find(function(task){
+				return task.id === taskIdToDelete;
+			});
+			if (!taskToRemove){
+				return callback(new Error("Task not found"));
+			}
+			taskList = taskList.filter(function(task){
+				return task.id !== taskIdToDelete;
+			});
+			return taskDb.saveData(taskList)
+		});
+}
 var taskService = {
 	getAll
 	, addNew
