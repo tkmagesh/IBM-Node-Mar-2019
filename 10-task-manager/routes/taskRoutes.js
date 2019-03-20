@@ -13,4 +13,9 @@ router.get('/', function(req, res){
 	res.render('tasks/list', {tasks : taskList});
 });
 
+
+router.get('/new', function(req, res){
+	res.render('tasks/addNew');
+});
+
 module.exports = router;
