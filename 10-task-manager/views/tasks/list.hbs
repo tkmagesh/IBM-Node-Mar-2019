@@ -4,6 +4,6 @@
 <a href="/tasks/new">Create New</a>
 <ol>
 	{{#each tasks}}
-		<li>{{name}}</li>
+		<li>{{name}}  <span>[ <a href="/tasks/remove/{{id}}">X</a> ]</span></li>
 	{{/each}}
 </ol>

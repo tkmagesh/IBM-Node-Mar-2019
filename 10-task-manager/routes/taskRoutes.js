@@ -31,4 +31,12 @@ router.post('/new', function(req, res){
 	res.redirect('/tasks');
 });
 
+router.get('/remove/:id', function(req, res){
+	var taskIdToRemove = parseInt(req.params.id);
+	taskList = taskList.filter(function(task){
+		return task.id !== taskIdToRemove;
+	});
+	res.redirect('/tasks');
+});
+
 module.exports = router;
